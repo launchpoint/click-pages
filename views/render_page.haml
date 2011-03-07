@@ -1,0 +1,29 @@
+.panel
+  -if(isset($page))
+    .page
+      -if($show_title)
+        .title
+          .title_left
+            -if($page->show_title)
+              +$page->title
+          .title_right
+            -if(count($pages)>1)
+              =link_to("< Back to Table of Contents", view_page_url($page))
+              %br
+            -if ($current_user->has_access('page_editor'))
+              %a.sb_button{:href=>edit_page_url($page)} =se("edit")
+          .clear
+      .body
+        -if (strlen(trim($page->body_html)) == 0)
+          =se("There is currently no content for this page.")
+        -else
+          =$page->body_html
+  -else
+    .title
+      Table of Contents
+    .body
+      %ul
+        -foreach($pages as $page)
+          %li
+            %a{:href=>view_role_page_url($page, $page->role->name)}
+              +$page->title

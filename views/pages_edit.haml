@@ -1,0 +1,6 @@
+-add_breadcrumb("Edit {$page->name}", build_url($full_request_path, 0, array(array('cmd'=>'edit', 'page_id'=>$page->id))))
+.panel
+  .title
+    =se("Edit Page")
+  .body
+    -$page->superform()

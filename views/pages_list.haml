@@ -1,0 +1,17 @@
+.panel
+  =button_to("New Page", command_url('new'))
+- if (count($pages) == 0)
+  =se("No pages.")
+- else
+  %table
+    %tr.head
+      %th
+        =se("Link")
+      %th{:colspan=>999}
+    - foreach ($pages as $p)
+      %tr
+        %td
+          =link_to("/pages/view/$p->name", view_page_url($p->name))
+        %td
+        %td
+          =button_to('edit', command_url('edit', array('page_id'=>$p->id)))

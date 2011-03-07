@@ -1,0 +1,52 @@
+.panel
+  .title
+    =se("Edit ")
+    +$page->name
+  .body
+    %a{:href=>view_page_url($page)}
+      Back to View
+    .item
+      .title
+        Select a Role
+      .body
+        %form{:action=>'', :method=>'get'}
+          %fieldset
+            =select_tag('role_id', $roles, $page->role_id)
+            %br
+            =submit_tag('Go')
+    .item
+      .title
+        Edit
+      .body
+        =form_for($page)
+        =hidden_field('role_id')
+        %table
+          %tr
+            %td =se("Input Type")
+            %td =select_tag('page[type]', $types, $page->type)
+          %tr
+            %td =se("Title")
+            %td =text_field('title')
+          %tr
+            %td =se("Content")
+            %td
+              -if($page->type=='html')
+                =textarea_field('body', 'class', 'wysiwyg')
+              -else
+                =textarea_field('body', 'class', 'expanding')
+              -if (count($pages)>0)
+                %br
+                =se("Previous versions:")
+                %ul.history
+                  -foreach($pages as $pg)
+                    %li{:onclick=>"\$(\"[name='page[body]']\").val('".j($pg->body)."')"}
+                      =ago($pg->created_at) . " (" . strlen($pg->body) ." bytes)"
+          %tr
+            %td =se("Options")
+            %td
+              =checkbox_field('show_title')
+              =se('Show titles')
+          %tr
+            %td
+            %td =submit_tag('Save')
+        =end_form_for()
